@@ -1,0 +1,242 @@
+openapi: 3.0.3
+info:
+  title: Register App - OpenAPI 3.0
+  description: |-
+    Welcome! This is the reference documentation and schemas for a (basic) RESTful API that facilitates user account management.
+    
+    You can spin up and serve the API locally by following the instructions in the [project README](https://github.com/ajbleakley/register-app).
+    
+    This API is part of a portfolio project, and it's worth noting that the project goal is not to produce a finished system but to help demonstrate my current skillset at the project planning and technical implementation levels to prospective employers.
+    
+    For more information about the project, please refer to the [full project description](https://github.com/users/ajbleakley/projects/1) - - please click the "Project Details" icon at the top right corner.
+    
+    Note - I hope to add features such as RFC 7807-compliant problem details for error responses, authentication, and further resource types (user profiles, etc.) soon.
+  version: 1.0.0 (unreleased)
+servers:
+  - url: https://localhost:8000/api/v1
+tags:
+  - name: user
+    description: API endpoints to manage application users. Please note this API is designed to be stateless and user login/logout state should be handled by API clients.
+paths:
+  /users:
+    get:
+      tags:
+        - user
+      summary: List users
+      description: API endpoint to list all registered application users.
+      responses:
+        200:
+          description: A successful response body will list schema for all registered application users (passwords are not visible for obvious reasons). Note - pagination will be added to the API as a feature soon.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    identifier:
+                      type: string
+                      format: uuid
+                      example: 5e2dac47-6266-413c-9e9f-65ad274003e6
+                    created_at:
+                      type: string
+                      format: date-time
+                      example: 2024-06-03T11:44:20+00:00
+                    updated_at:
+                      type: string
+                      format: date-time
+                      example: 2024-06-03T11:44:20+00:00
+                    email:
+                      type: string
+                      format: email
+                      example: john@email.com
+        400: 
+          $ref: '#/components/responses/400'
+        404: 
+          $ref: '#/components/responses/404'
+    post:
+      tags:
+        - user
+      summary: Create user
+      description: API endpoint to register an application user.
+      requestBody:
+        $ref: '#/components/requestBodies/User'
+      responses:
+        201:
+          description: A successful response body will return schema for the registered user in the response body (minus password).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  identifier:
+                    type: string
+                    format: uuid
+                    example: 5e2dac47-6266-413c-9e9f-65ad274003e6
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: 2024-06-03T11:44:20+00:00
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: 2024-06-03T11:44:20+00:00
+                  email:
+                    type: string
+                    format: email
+                    example: john@email.com
+        400: 
+          $ref: '#/components/responses/400'
+        404: 
+          $ref: '#/components/responses/404'
+  /users/{identifier}:
+    get:
+      tags:
+        - user
+      summary: Get user
+      description: API endpoint to fetch a single application user, by user identifier.
+      parameters:
+        - $ref: '#/components/parameters/UserIdentifier' 
+      responses:
+        200:
+          description: A successful response will return schema for the application user in the response body (minus password).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  identifier:
+                    type: string
+                    format: uuid
+                    example: 5e2dac47-6266-413c-9e9f-65ad274003e6
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: 2024-06-03T11:44:20+00:00
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: 2024-06-03T11:44:20+00:00
+                  email:
+                    type: string
+                    format: email
+                    example: john@email.com
+        400: 
+          $ref: '#/components/responses/400'
+        404: 
+          $ref: '#/components/responses/404'
+    put:
+      tags:
+        - user
+      summary: Update user
+      description: API endpoint to update a single application user, by user identifier.
+      parameters:
+        - $ref: '#/components/parameters/UserIdentifier'
+      requestBody:
+        $ref: '#/components/requestBodies/User'
+      responses:
+        200:
+          description: A successful response will return schema for the updated user in the response body (minus password).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  identifier:
+                    type: string
+                    format: uuid
+                    example: 5e2dac47-6266-413c-9e9f-65ad274003e6
+                  created_at:
+                    type: string
+                    format: date-time
+                    example: 2024-06-03T11:44:20+00:00
+                  updated_at:
+                    type: string
+                    format: date-time
+                    example: 2024-06-03T11:44:20+00:00
+                  email:
+                    type: string
+                    format: email
+                    example: john@email.com
+        400: 
+          $ref: '#/components/responses/400'
+        404: 
+          $ref: '#/components/responses/404'
+    delete:
+      tags:
+        - user
+      summary: Delete user
+      description: API endpoint to delete a single application user, by user identifier.
+      parameters:
+        - $ref: '#/components/parameters/UserIdentifier'
+      responses:
+        204:
+          description: In the event of a successful deletion of a user, a 204 (no content) response code will be returned to indicate the server successfully processed the request, and is not returning any content.
+        400: 
+          $ref: '#/components/responses/400'
+        404: 
+          $ref: '#/components/responses/404'
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        identifier:
+          type: string
+          format: uuid
+          example: 5e2dac47-6266-413c-9e9f-65ad274003e6
+        created_at:
+          type: string
+          format: date-time
+          example: 2024-06-03T11:44:20+00:00
+        updated_at:
+          type: string
+          format: date-time
+          example: 2024-06-03T11:44:20+00:00
+        email:
+          type: string
+          format: email
+          example: john@email.com
+        password:
+          type: string
+          example: password
+  parameters:
+    UserIdentifier:
+      name: identifier
+      in: path
+      description: 'The identifier of the user that needs to be fetched.'
+      required: true
+      schema:
+        type: string
+        format: uuid
+  requestBodies:
+    User:
+      description: User object
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                format: email
+                example: john@email.com
+              password:
+                type: string
+                format: password
+                example: password
+  responses:
+      400:
+        description: Bad Request (Documentation coming soon)
+      401:
+        description: Unauthorised (Documentation coming soon)
+      403:
+        description: Forbidden (Documentation coming soon)
+      404:
+        description: Not Found (Documentation coming soon)
+      409:
+        description: Conflict (Documentation coming soon)
+      422:
+        description: Validation Error (Documentation coming soon)
+      429:
+        description: Too Many Requests (Documentation coming soon)
