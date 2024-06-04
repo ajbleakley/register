@@ -21,7 +21,7 @@ class LoggerAwareInitializerTest extends TestCase
         $instance = $this->createMock(LoggerAwareInterface::class);
         $instance->expects($this->once())->method('setLogger');
 
-        (new LoggerAwareInitializer())->__invoke($container, $instance);
+        (new LoggerAwareInitializer())($container, $instance);
     }
 
     public function testWhenInitializedObjectIsNotLoggerAwareThenLoggerNotInjectedAsDependency(): void
@@ -29,7 +29,7 @@ class LoggerAwareInitializerTest extends TestCase
         $container = $this->createMock(ContainerInterface::class);
         $container->expects($this->never())->method('get');
 
-        (new LoggerAwareInitializer())->__invoke($container, new class {
+        (new LoggerAwareInitializer())($container, new class {
         });
     }
 }
