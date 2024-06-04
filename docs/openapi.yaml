@@ -8,7 +8,7 @@ info:
     
     This API is part of a portfolio project, and it's worth noting that the project goal is not to produce a finished system but to help demonstrate my current skillset at the project planning and technical implementation levels to prospective employers.
     
-    For more information about the project, please refer to the [full project description](https://github.com/users/ajbleakley/projects/1) - - please click the "Project Details" icon at the top right corner.
+    For more information about the project, please refer to the [full project description](https://github.com/users/ajbleakley/projects/1) - please click the "Project Details" icon at the top right corner.
     
     Note - I hope to add features such as RFC 7807-compliant problem details for error responses, authentication, and further resource types (user profiles, etc.) soon.
   version: 1.0.0 (unreleased)
