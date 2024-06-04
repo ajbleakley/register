@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Factory\LoggerFactory;
+use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
+use Psr\Log\LoggerInterface;
+
 /**
  * The configuration provider for the App module
  *
@@ -32,10 +36,12 @@ class ConfigProvider
     {
         return [
             'invokables' => [
-                Handler\PingHandler::class => Handler\PingHandler::class,
+                // list here
             ],
             'factories'  => [
+                Handler\PingHandler::class     => ReflectionBasedAbstractFactory::class,
                 Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
+                LoggerInterface::class         => LoggerFactory::class,
             ],
         ];
     }
