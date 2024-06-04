@@ -23,7 +23,7 @@ Running the application environment is simple:
 ## Progress Summary
 
 - [Introduce and plan project](https://github.com/users/ajbleakley/projects/1) ✅ (Please click the "Project Details" icon (top-right of project view))
-- [Design API documentation](docs/openapi.yaml) ✅ (WIP - currently missing API endpoint(s) to facilitate authentication)
+- [Design API documentation](docs/openapi.yaml) ✅ (WIP - copy/paste the source code into [this online editor](https://editor.swagger.io/) to view)
 - Setup project environment on Docker ✅ (WIP - currently a solid starting point)
 - Implement API design (TODO)
 - End-to-end testing (TODO)
