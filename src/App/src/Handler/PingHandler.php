@@ -8,15 +8,14 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 
 use function time;
 
-class PingHandler implements RequestHandlerInterface
+class PingHandler implements RequestHandlerInterface, LoggerAwareInterface
 {
-    public function __construct(private readonly LoggerInterface $logger)
-    {
-    }
+    use LoggerAwareTrait;
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {

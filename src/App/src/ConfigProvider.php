@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App;
 
 use App\Factory\LoggerFactory;
+use App\Initializer\LoggerAwareInitializer;
 use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
 use Psr\Log\LoggerInterface;
 
@@ -35,13 +36,16 @@ class ConfigProvider
     public function getDependencies(): array
     {
         return [
-            'invokables' => [
+            'invokables'   => [
                 // list here
             ],
-            'factories'  => [
+            'factories'    => [
                 Handler\PingHandler::class     => ReflectionBasedAbstractFactory::class,
                 Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
                 LoggerInterface::class         => LoggerFactory::class,
+            ],
+            'initializers' => [
+                LoggerAwareInitializer::class,
             ],
         ];
     }
