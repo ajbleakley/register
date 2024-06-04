@@ -22,6 +22,7 @@ class LoggerFactory implements FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null)
     {
         $logger = new Logger('default');
+        // TODO - configure stream handler for centralised logging in distributed system
         $logger->pushHandler(
             new StreamHandler(sprintf(self::STREAM_PATH, (new DateTimeImmutable())->format('Ymd')))
         );
