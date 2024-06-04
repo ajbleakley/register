@@ -19,10 +19,7 @@ class PingHandler implements RequestHandlerInterface, LoggerAwareInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        // add records to the log
-        $this->logger->warning('Foo');
-        $this->logger->error('Bar');
-
+        $this->logger->info('Ping handler invoked');
         return new JsonResponse(['ack' => time()]);
     }
 }
