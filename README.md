@@ -15,10 +15,12 @@ To run the project locally, you will need to have Docker installed on your host 
 
 ## Getting Started
 
-Running the application environment is simple:
+Running the application environment locally is simple:
 
 1. Run `docker compose up -d` to build and serve the application environment.
 2. Visit http://localhost:8000/api/ping in your web browser to verify the application is running.
+
+> Note - I will add to this getting started guide as I continue building out the application. Next step is to expose API endpoint for API client to register a user.
 
 ## Progress Summary
 
@@ -41,7 +43,7 @@ To run composer commands inside the application container:
 docker exec -it register-app-php-fpm-1 composer ...
 ```
 
-To copy project dependencies from the container to your host:
+To copy application dependencies from the container to your host:
 ```
 docker cp register-app-php-fpm-1:/application/vendor/ ~/your/host/path/to/register-app
 ```
