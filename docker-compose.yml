@@ -1,7 +1,7 @@
 ###############################################################################
 #                          Generated on phpdocker.io                          #
 ###############################################################################
-version: '3.1'
+
 services:
     memcached:
         image: 'memcached:alpine'
@@ -11,11 +11,12 @@ services:
         working_dir: /application
         volumes:
             - '.:/application'
-        environment:
-            - MYSQL_ROOT_PASSWORD=test
-            - MYSQL_DATABASE=test
-            - MYSQL_USER=test
-            - MYSQL_PASSWORD=test
+        env_file:
+            # https://docs.docker.com/compose/environment-variables/set-environment-variables/#additional-information
+            - path: .env
+              required: true # default
+            - path: .env.local
+              required: false
         ports:
             - '3306:3306'
 
