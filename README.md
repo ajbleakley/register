@@ -17,9 +17,8 @@ To run the project locally, you will need to have Docker installed on your host 
 
 Running the application environment is simple:
 
-1. Run `composer install` to install project dependencies.
-2. Run `docker compose up -d` to build and serve the application environment.
-3. Visit http://localhost:8000/api/ping in your web browser to verify the application is running.
+1. Run `docker compose up -d` to build and serve the application environment.
+2. Visit http://localhost:8000/api/ping in your web browser to verify the application is running.
 
 ## Progress Summary
 
