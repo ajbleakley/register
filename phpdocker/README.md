@@ -30,8 +30,8 @@ add your own hostname on your `/etc/hosts`
 
 Service|Address outside containers
 -------|--------------------------
-Webserver|[localhost:15000](http://localhost:15000)
-MySQL|**host:** `localhost`; **port:** `15002`
+Webserver|[localhost:37000](http://localhost:37000)
+MySQL|**host:** `localhost`; **port:** `37002`
 
 ## Hosts within your environment ##
 
@@ -56,9 +56,9 @@ Memcached|memcached|11211 (default)
   all containers in `SERVICE_NAME`.
 * Execute command inside of container: `docker-compose exec SERVICE_NAME COMMAND` where `COMMAND` is whatever you want
   to run. Examples:
-    * Shell into the PHP container, `docker-compose exec php-fpm bash`
-    * Run symfony console, `docker-compose exec php-fpm bin/console`
-    * Open a mysql shell, `docker-compose exec mysql mysql -uroot -pCHOSEN_ROOT_PASSWORD`
+  * Shell into the PHP container, `docker-compose exec php-fpm bash`
+  * Run symfony console, `docker-compose exec php-fpm bin/console`
+  * Open a mysql shell, `docker-compose exec mysql mysql -uroot -pCHOSEN_ROOT_PASSWORD`
 
 # Application file permissions #
 
