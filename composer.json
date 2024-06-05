@@ -47,6 +47,8 @@
     "require": {
         "php": "~8.1.0 || ~8.2.0 || ~8.3.0",
         "composer/package-versions-deprecated": "^1.10.99",
+        "doctrine/dbal": "^4.0",
+        "doctrine/orm": "^3.2",
         "laminas/laminas-component-installer": "^2.6 || ^3.0",
         "laminas/laminas-config-aggregator": "^1.6",
         "laminas/laminas-diactoros": "^3.0.0",
@@ -55,7 +57,8 @@
         "mezzio/mezzio": "^3.7",
         "mezzio/mezzio-fastroute": "^3.11.0",
         "mezzio/mezzio-helpers": "^5.7",
-        "monolog/monolog": "^3.6"
+        "monolog/monolog": "^3.6",
+        "symfony/cache": "^6.4"
     },
     "require-dev": {
         "colinodell/psr-testlogger": "^1.3",
