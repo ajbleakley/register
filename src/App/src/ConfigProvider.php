@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Factory\EntityManagerFactory;
 use App\Factory\LoggerFactory;
 use App\Initializer\LoggerAwareInitializer;
+use Doctrine\ORM\EntityManagerInterface;
 use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
 use Psr\Log\LoggerInterface;
 
@@ -43,6 +45,7 @@ class ConfigProvider
                 Handler\PingHandler::class     => ReflectionBasedAbstractFactory::class,
                 Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
                 LoggerInterface::class         => LoggerFactory::class,
+                EntityManagerInterface::class  => EntityManagerFactory::class,
             ],
             'initializers' => [
                 LoggerAwareInitializer::class,
