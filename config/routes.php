@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\ADR\Action\API\CreateUserAction;
 use Mezzio\Application;
+use Mezzio\Helper\BodyParams\BodyParamsMiddleware;
 use Mezzio\MiddlewareFactory;
 use Psr\Container\ContainerInterface;
 
@@ -45,5 +46,8 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
     $app->get('/api/ping', App\Handler\PingHandler::class, 'api.ping');
 
     // users resource
-    $app->post(sprintf(API_PATH_TEMPLATE, 'users'), CreateUserAction::class, 'api.users.create');
+    $app->post(sprintf(API_PATH_TEMPLATE, 'users'), [
+        BodyParamsMiddleware::class,
+        CreateUserAction::class,
+    ], 'api.users.create');
 };
