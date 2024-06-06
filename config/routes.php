@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\ADR\Action\API\CreateUserAction;
 use Mezzio\Application;
 use Mezzio\MiddlewareFactory;
 use Psr\Container\ContainerInterface;
@@ -37,7 +38,12 @@ use Psr\Container\ContainerInterface;
  * );
  */
 
+const API_PATH_TEMPLATE = '/api/v1/%s';
+
 return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
     $app->get('/', App\Handler\HomePageHandler::class, 'home');
     $app->get('/api/ping', App\Handler\PingHandler::class, 'api.ping');
+
+    // users resource
+    $app->post(sprintf(API_PATH_TEMPLATE, 'users'), CreateUserAction::class, 'api.users.create');
 };
