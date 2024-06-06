@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\ADR\Domain;
 
-use InvalidArgumentException;
-
 interface DomainRequestInterface
 {
     /**
-     * @throws InvalidArgumentException
+     * @throws InvalidDomainRequestException
      */
     public function validate(): void;
 }

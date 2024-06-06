@@ -8,9 +8,9 @@ use App\ADR\Domain\CreateUser\CreateUserDomain;
 use App\ADR\Domain\CreateUser\CreateUserDomainRequest;
 use App\ADR\Domain\CreateUser\NotReadyToCreateUserDomainResult;
 use App\ADR\Domain\CreateUser\UserCreatedDomainResult;
+use App\ADR\Domain\InvalidDomainRequestException;
 use App\ADR\Responder\API\JsonResponder;
 use App\ADR\Responder\API\JsonResponderRequest;
-use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -41,7 +41,7 @@ class CreateUserAction implements RequestHandlerInterface
         try {
             $domainRequest = new CreateUserDomainRequest($email, $password);
             $domainResult  = $this->createUserDomain->process($domainRequest);
-        } catch (InvalidArgumentException $exception) {
+        } catch (InvalidDomainRequestException $exception) {
             $domainResult = new NotReadyToCreateUserDomainResult($exception->getMessage());
         }
 

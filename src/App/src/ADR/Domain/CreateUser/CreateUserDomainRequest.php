@@ -5,17 +5,13 @@ declare(strict_types=1);
 namespace App\ADR\Domain\CreateUser;
 
 use App\ADR\Domain\DomainRequestInterface;
-use InvalidArgumentException;
+use App\ADR\Domain\InvalidDomainRequestException;
 use Laminas\Validator\EmailAddress;
 use Laminas\Validator\Regex;
-
-use function sprintf;
 
 class CreateUserDomainRequest implements DomainRequestInterface
 {
     private const REQUIRED_FIELDS = ['email', 'password'];
-
-    private const EXCEPTION_MESSAGE_TEMPLATE = 'Please provide a valid %s';
 
     /*
      * Password regex - at least 1 upper case letter, 1 lower case letter, 1 number, and 1 special character
@@ -42,13 +38,19 @@ class CreateUserDomainRequest implements DomainRequestInterface
      */
     public function validate(): void
     {
+        $validationMessages = [];
+
         if (! (new EmailAddress())->isValid($this->email)) {
-            throw new InvalidArgumentException(sprintf(self::EXCEPTION_MESSAGE_TEMPLATE, $this->email));
+            $validationMessages[] = 'Please provide a valid email';
         }
 
         // Could use https://docs.laminas.dev/laminas-validator/validators/undisclosed-password/
         if (! (new Regex(self::PASSWORD_REGEX))->isValid($this->password)) {
-            throw new InvalidArgumentException(sprintf(self::EXCEPTION_MESSAGE_TEMPLATE, $this->password));
+            $validationMessages[] = 'Please provide a secure password';
+        }
+
+        if (! empty($validationMessages)) {
+            throw new InvalidDomainRequestException($validationMessages);
         }
     }
 }
