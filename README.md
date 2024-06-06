@@ -1,4 +1,4 @@
-# Register App
+# Register App (Unreleased - WIP)
 
 ## Introduction
 Howdy! This portfolio project is part of a [wider project](https://github.com/users/ajbleakley/projects/1) to build a simple, distributed system with user account management and authentication features.
@@ -13,21 +13,24 @@ For more information about the project, please refer to the [full project descri
 
 To run the project locally, you will need to have Docker installed on your host machine. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/).
 
+[Postman](https://www.postman.com/) API platform is useful too, because you can download and import [this Postman collection](docs/postman_collection.json) to start exploring the API.
+
 ## Getting Started
 
-Running the application environment locally is simple:
+To build and serve the application environment, simply run:
+```
+docker compose up --build -d
+```
 
-1. Run `docker compose up -d` to build and serve the application environment.
-2. Visit http://localhost:8000/api/ping in your web browser to verify the application is running.
-
-> Note - I will add to this getting started guide as I continue building out the application. Next step is to expose API endpoint for API client to register a user.
+Then, verify the application is running: http://localhost:8000/api/ping
 
 ## Progress Summary
 
 - [Introduce and plan project](https://github.com/users/ajbleakley/projects/1) ✅ (Please click the "Project Details" icon (top-right of project view))
 - [Design API documentation](docs/openapi.yaml) ✅ (WIP - copy/paste the source code into [this online editor](https://editor.swagger.io/) to view)
 - Setup project environment on Docker ✅ (WIP - currently a solid starting point)
-- Implement API design (TODO)
+- Add API endpoint to create a user  ✅ (Working example available in [Postman collection](docs/postman_collection.json))
+- Implement rest of [API design](docs/openapi.yaml) (TODO)
 - End-to-end testing (TODO)
 - API client application (TODO)
 
