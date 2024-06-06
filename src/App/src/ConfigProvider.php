@@ -38,16 +38,18 @@ class ConfigProvider
     public function getDependencies(): array
     {
         return [
-            'invokables'   => [
+            'invokables'         => [
                 // list here
             ],
-            'factories'    => [
-                Handler\PingHandler::class     => ReflectionBasedAbstractFactory::class,
+            'abstract_factories' => [
+                ReflectionBasedAbstractFactory::class,
+            ],
+            'factories'          => [
                 Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
                 LoggerInterface::class         => LoggerFactory::class,
                 EntityManagerInterface::class  => EntityManagerFactory::class,
             ],
-            'initializers' => [
+            'initializers'       => [
                 LoggerAwareInitializer::class,
             ],
         ];
