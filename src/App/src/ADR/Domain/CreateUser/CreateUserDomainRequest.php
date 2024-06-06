@@ -46,7 +46,7 @@ class CreateUserDomainRequest implements DomainRequestInterface
             throw new InvalidArgumentException(sprintf(self::EXCEPTION_MESSAGE_TEMPLATE, $this->email));
         }
 
-        // Could use [Undisclosed Password Validator](https://docs.laminas.dev/laminas-validator/validators/undisclosed-password/)
+        // Could use https://docs.laminas.dev/laminas-validator/validators/undisclosed-password/
         if (! (new Regex(self::PASSWORD_REGEX))->isValid($this->password)) {
             throw new InvalidArgumentException(sprintf(self::EXCEPTION_MESSAGE_TEMPLATE, $this->password));
         }
