@@ -22,7 +22,9 @@ To build and serve the application environment, simply run:
 docker compose up --build -d
 ```
 
-[Ping](http://localhost:8000/api/ping) the application to check it's running and then explore the API using either the [API documentation](docs/openapi.yaml) or the [Postman collection](docs/postman_collection.json).
+Ping the application to check it's running locally: http://localhost:8000/api/ping
+
+Then explore the API using either the [API documentation](docs/openapi.yaml) or the [Postman collection](docs/postman_collection.json).
 
 ## Progress Summary
 
