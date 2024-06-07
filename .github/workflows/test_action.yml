@@ -17,6 +17,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Install redis
+      run: sudo apt-get install -y redis-tools redis-server
+    - name: Verify that redis is up
+      run: redis-cli ping
+
     - name: Validate composer.json and composer.lock
       run: composer validate --strict
 
