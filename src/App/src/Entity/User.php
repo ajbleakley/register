@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 
 use function password_hash;
 
@@ -25,11 +27,11 @@ class User
 
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'created_at', type: 'datetime_immutable')]
-    private string $createdAt;
+    private DateTimeImmutable $createdAt;
 
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'updated_at', type: 'datetime_immutable')]
-    private string $updatedAt;
+    private DateTimeImmutable $updatedAt;
 
     #[ORM\Column(type: 'string')]
     private string $username;
@@ -42,7 +44,9 @@ class User
 
     public function __construct(string $email, string $password)
     {
-        $this->username = $email; // On user creation, email is used as username
+        $this->identifier = Uuid::uuid1()->toString();
+        $this->createdAt  = $this->updatedAt = new DateTimeImmutable();
+        $this->username   = $email; // On user creation, email is used as username
         // validate password here
         $this->passwordHash = password_hash($password, PASSWORD_DEFAULT);
         $this->email        = $email;
