@@ -28,6 +28,8 @@ class CreateUserDomainTest extends TestCase
 
         // parameters
         $this->domainRequest = $this->createMock(CreateUserDomainRequest::class);
+        $this->domainRequest->method('getEmail')->willReturn('user@email.com');
+        $this->domainRequest->method('getPassword')->willReturn('lowerUPPER123@$!');
     }
 
     private function sut(): DomainResultInterface

@@ -18,10 +18,16 @@ class UserServiceTest extends TestCase
     // dependencies
     private EntityManagerInterface $entityManager;
 
+    // helper
+    private User $dummyUser;
+
     protected function setUp(): void
     {
         // dependencies
         $this->entityManager = $this->createTestEntityManager();
+
+        // helper
+        $this->dummyUser = new User('user@email.com', 'lowerUPPER123@$!');
 
         // rebuild test schema
         $classes    = [$this->entityManager->getClassMetadata(User::class)];
@@ -51,22 +57,19 @@ class UserServiceTest extends TestCase
 
     public function testWhenUserIsSaved(): void
     {
-        $user = new User('user@email.com', 'password');
-        $this->sut()->saveUser($user);
-        $fetchedUser = $this->sut()->fetchByIdentifier($user->identifier());
+        $this->sut()->saveUser($this->dummyUser);
+        $fetchedUser = $this->sut()->fetchByIdentifier($this->dummyUser->identifier());
         self::assertNotNull($fetchedUser);
     }
 
     public function testWhenUserDoesNotAlreadyExistForEmail(): void
     {
-        $user = new User('user@email.com', 'password');
-        self::assertFalse($this->sut()->isEmailAlreadyRegistered($user->email()));
+        self::assertFalse($this->sut()->isEmailAlreadyRegistered($this->dummyUser->email()));
     }
 
     public function testWhenUserAlreadyExistForEmail(): void
     {
-        $user = new User('user@email.com', 'password');
-        $this->sut()->saveUser($user);
-        self::assertTrue($this->sut()->isEmailAlreadyRegistered($user->email()));
+        $this->sut()->saveUser($this->dummyUser);
+        self::assertTrue($this->sut()->isEmailAlreadyRegistered($this->dummyUser->email()));
     }
 }

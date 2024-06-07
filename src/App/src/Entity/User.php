@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Helper\PasswordValidationHelper;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Laminas\Validator\EmailAddress;
+use OutOfBoundsException;
 use Ramsey\Uuid\Uuid;
 
 use function password_hash;
@@ -44,12 +47,18 @@ class User
 
     public function __construct(string $email, string $password)
     {
-        $this->identifier = Uuid::uuid1()->toString();
-        $this->createdAt  = $this->updatedAt = new DateTimeImmutable();
-        $this->username   = $email; // On user creation, email is used as username
-        // validate password here
-        $this->passwordHash = password_hash($password, PASSWORD_DEFAULT);
-        $this->email        = $email;
+        $this->identifier   = Uuid::uuid1()->toString();
+        $this->createdAt    = $this->updatedAt = new DateTimeImmutable();
+        $this->username     = $this->email = $email; // On user creation, email used as username
+        $this->passwordHash = $this->hashPassword($password);
+        $this->validate();
+    }
+
+    private function validate(): void
+    {
+        if (! (new EmailAddress())->isValid($this->email)) {
+            throw new OutOfBoundsException('Invalid email');
+        }
     }
 
     public function identifier(): string
@@ -65,5 +74,14 @@ class User
     public function email(): string
     {
         return $this->username;
+    }
+
+    public function hashPassword(string $password): string
+    {
+        if (! (new PasswordValidationHelper())->isValid($password)) {
+            throw new OutOfBoundsException('Invalid password');
+        }
+
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 }
