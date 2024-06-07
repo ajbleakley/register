@@ -9,14 +9,14 @@ use App\ADR\Domain\CreateUser\CreateUserDomainRequest;
 use App\ADR\Domain\CreateUser\UserCreatedDomainResult;
 use App\ADR\Domain\CreateUser\UserNotCreatedDomainResult;
 use App\ADR\Domain\DomainResultInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\UserService;
 use PHPUnit\Framework\TestCase;
 use Throwable;
 
 class CreateUserDomainTest extends TestCase
 {
     // dependencies
-    private EntityManagerInterface $entityManager;
+    private UserService $users;
 
     // parameters
     private CreateUserDomainRequest $domainRequest;
@@ -24,7 +24,7 @@ class CreateUserDomainTest extends TestCase
     protected function setUp(): void
     {
         // dependencies
-        $this->entityManager = $this->createMock(EntityManagerInterface::class);
+        $this->users = $this->createMock(UserService::class);
 
         // parameters
         $this->domainRequest = $this->createMock(CreateUserDomainRequest::class);
@@ -32,13 +32,26 @@ class CreateUserDomainTest extends TestCase
 
     private function sut(): DomainResultInterface
     {
-        return (new CreateUserDomain($this->entityManager))->process($this->domainRequest);
+        return (new CreateUserDomain($this->users))->process($this->domainRequest);
     }
 
-    public function testWhenUserIsCreatedThenUserEntityIsPersisted(): void
+    public function testWhenEmailIsAlreadyRegisteredThenDomainSignalsUserNotCreated(): void
+    {
+        // given
+        $this->users->method('isEmailAlreadyRegistered')
+            ->willReturn(true);
+
+        // when
+        $result = $this->sut();
+
+        // then
+        self::assertInstanceOf(UserNotCreatedDomainResult::class, $result);
+    }
+
+    public function testWhenUserIsCreatedThenUserIsPersisted(): void
     {
         // expect
-        $this->entityManager->expects($this->once())->method('persist');
+        $this->users->expects($this->once())->method('saveUser');
 
         // when
         $this->sut();
@@ -47,7 +60,7 @@ class CreateUserDomainTest extends TestCase
     public function testWhenPersistenceFailsThenDomainSignalsUserNotCreated(): void
     {
         // given
-        $this->entityManager->method('persist')
+        $this->users->method('saveUser')
             ->willThrowException($this->createMock(Throwable::class));
 
         // when
