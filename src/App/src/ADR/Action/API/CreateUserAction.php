@@ -56,7 +56,7 @@ class CreateUserAction implements RequestHandlerInterface
         // TODO - improve structure of API response (maybe use existing PHP library)
         $responderRequest = new JsonResponderRequest([
             'message' => 'User created successfully',
-            'email'   => $domainResult->getUser()->getEmail(),
+            'email'   => $domainResult->getUser()->email(),
         ], 200);
 
         return $this->jsonResponder->respond($responderRequest);

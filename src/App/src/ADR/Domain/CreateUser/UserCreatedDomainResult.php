@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace App\ADR\Domain\CreateUser;
 
 use App\ADR\Domain\DomainResultInterface;
-use App\Entity\UserEntity;
+use App\Entity\User\User;
 
 class UserCreatedDomainResult implements DomainResultInterface
 {
-    public function __construct(private readonly UserEntity $user)
+    public function __construct(private readonly User $user)
     {
     }
 
-    public function getUser(): UserEntity
+    public function getUser(): User
     {
         return $this->user;
     }

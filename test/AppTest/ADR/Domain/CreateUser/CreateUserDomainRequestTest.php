@@ -28,23 +28,12 @@ class CreateUserDomainRequestTest extends TestCase
         new CreateUserDomainRequest('invalid_email.com', 'weak_password');
     }
 
-    public static function invalidPasswordProvider(): array
-    {
-        return [
-            'empty'      => [''],
-            'no lower'   => ['UPPER123@$!'],
-            'no upper'   => ['lower123@$!'],
-            'no number'  => ['lowerUPPER@$!'],
-            'no special' => ['lowerUPPER123'],
-        ];
-    }
-
     /**
-     * @dataProvider invalidPasswordProvider
+     * Unit tests for password validation helper already test range of scenarios
      */
-    public function testWhenInvalidPasswordProvidedThenDomainRequestIsInvalid(string $password): void
+    public function testWhenInvalidPasswordProvidedThenDomainRequestIsInvalid(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        new CreateUserDomainRequest('invalid_email.com', $password);
+        new CreateUserDomainRequest('invalid_email.com', 'invalid_password');
     }
 }
