@@ -7,7 +7,7 @@ namespace App\ADR\Domain\CreateUser;
 use App\ADR\Domain\DomainInterface;
 use App\ADR\Domain\DomainRequestInterface;
 use App\ADR\Domain\DomainResultInterface;
-use App\Entity\User;
+use App\Entity\User\User;
 use App\Service\UserService;
 use Throwable;
 

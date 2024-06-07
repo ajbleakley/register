@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Entity\User;
 
 use App\Helper\PasswordValidationHelper;
 use DateTimeImmutable;
@@ -12,12 +12,13 @@ use OutOfBoundsException;
 use Ramsey\Uuid\Uuid;
 
 use function password_hash;
+use function password_verify;
 
 use const PASSWORD_DEFAULT;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'users')]
-class User
+class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -83,5 +84,10 @@ class User
         }
 
         return password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    public function verifyPassword(string $password): bool
+    {
+        return password_verify($password, $this->passwordHash);
     }
 }

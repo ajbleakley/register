@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AppTest\Service;
 
-use App\Entity\User;
+use App\Entity\User\User;
 use App\Service\UserService;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
