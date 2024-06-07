@@ -13,6 +13,17 @@ class UserService
     {
     }
 
+    public function fetchByIdentifier(string $identifier): ?User
+    {
+        return $this->entityManager->createQueryBuilder()
+            ->select('u')
+            ->from(User::class, 'u')
+            ->andWhere('u.identifier = :identifier')
+            ->setParameter('identifier', $identifier)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function saveUser(User $user): void
     {
         $this->entityManager->persist($user);
