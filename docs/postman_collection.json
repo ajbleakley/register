@@ -8,7 +8,7 @@
 	},
 	"item": [
 		{
-			"name": "Get user (not implemented yet)",
+			"name": "Get user",
 			"event": [
 				{
 					"listen": "test",
@@ -47,10 +47,10 @@
 					"listen": "test",
 					"script": {
 						"exec": [
-							"pm.test(\"Successful POST request\", function () {",
-							"    pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
-							"});",
-							""
+							"pm.test(\"Your test name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.collectionVariables.set(\"identifier\", jsonData.identifier);",
+							"});"
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -62,7 +62,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"email\": \"example@email.com\",\n    \"password\": \"lowerUPPER123@$!\"\n}",
+					"raw": "{\n\t\"email\": \"{{$randomExampleEmail}}\",\n    \"password\": \"lowerUPPER123@$!\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
