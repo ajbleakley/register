@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use App\Entity\User\User;
-use Laminas\Hydrator\ObjectPropertyHydrator;
+use App\Hydrator\StrategicObjectPropertyHydrator;
 use Mezzio\Hal\Metadata\MetadataMap;
 use Mezzio\Hal\Metadata\RouteBasedResourceMetadata;
 
@@ -13,7 +13,7 @@ return [
             '__class__'      => RouteBasedResourceMetadata::class,
             'resource_class' => User::class,
             'route'          => 'api.users',
-            'extractor'      => ObjectPropertyHydrator::class,
+            'extractor'      => StrategicObjectPropertyHydrator::class,
         ],
 //        [
 //            '__class__'           => RouteBasedResourceMetadata::class,
