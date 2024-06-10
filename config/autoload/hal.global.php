@@ -12,14 +12,14 @@ return [
         [
             '__class__'      => RouteBasedResourceMetadata::class,
             'resource_class' => User::class,
-            'route'          => 'api.user',
+            'route'          => 'api.users',
             'extractor'      => ObjectPropertyHydrator::class,
         ],
-        [
-            '__class__'           => RouteBasedResourceMetadata::class,
-            'collection_class'    => User::class,
-            'collection_relation' => 'users',
-            'route'               => 'api.users',
-        ],
+//        [
+//            '__class__'           => RouteBasedResourceMetadata::class,
+//            'collection_class'    => User::class,
+//            'collection_relation' => 'users',
+//            'route'               => 'api.users',
+//        ],
     ],
 ];
