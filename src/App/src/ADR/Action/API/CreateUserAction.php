@@ -9,11 +9,12 @@ use App\ADR\Domain\CreateUser\CreateUserDomainRequest;
 use App\ADR\Domain\CreateUser\NotReadyToCreateUserDomainResult;
 use App\ADR\Domain\CreateUser\UserCreatedDomainResult;
 use App\ADR\Domain\InvalidDomainRequestException;
-use App\ADR\Responder\API\JsonResponder;
-use App\ADR\Responder\API\JsonResponderRequest;
+use Laminas\Diactoros\Response\RedirectResponse;
+use Mezzio\Helper\UrlHelper;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use UnexpectedValueException;
 
 use function filter_var;
 use function htmlspecialchars;
@@ -24,7 +25,7 @@ class CreateUserAction implements RequestHandlerInterface
 {
     public function __construct(
         private readonly CreateUserDomain $createUserDomain,
-        private readonly JsonResponder $jsonResponder
+        private readonly UrlHelper $urlHelper
     ) {
     }
 
@@ -48,17 +49,11 @@ class CreateUserAction implements RequestHandlerInterface
         // responder
         if (! $domainResult instanceof UserCreatedDomainResult) {
             // TODO - use [mezzio-problem-details](https://docs.mezzio.dev/mezzio-problem-details/)
-            return $this->jsonResponder->respond(
-                new JsonResponderRequest(['message' => $domainResult->getMessage()], 400)
-            );
+            throw new UnexpectedValueException($domainResult->getMessage());
         }
 
-        // TODO - improve structure of API response (maybe use existing PHP library)
-        $responderRequest = new JsonResponderRequest([
-            'message' => 'User created successfully',
-            'email'   => $domainResult->getUser()->email(),
-        ], 200);
-
-        return $this->jsonResponder->respond($responderRequest);
+        return new RedirectResponse($this->urlHelper->generate('api.users', [
+            'identifier' => $domainResult->getUser()->identifier(),
+        ]));
     }
 }
