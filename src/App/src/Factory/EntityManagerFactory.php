@@ -27,7 +27,7 @@ class EntityManagerFactory implements FactoryInterface
         // configuring the database connection
         $connection = DriverManager::getConnection([
             'driver' => 'pdo_sqlite',
-            'path'   => __DIR__ . '/../../../../db.sqlite',
+            'path'   => __DIR__ . '/../../../../data/db.sqlite',
         ], $config);
 
         return new EntityManager($connection, $config);
