@@ -8,11 +8,11 @@ use App\ADR\Action\API\CreateUserAction;
 use App\ADR\Domain\CreateUser\CreateUserDomain;
 use App\ADR\Domain\CreateUser\UserCreatedDomainResult;
 use App\ADR\Domain\CreateUser\UserNotCreatedDomainResult;
+use App\Exception\OutOfBoundsException;
 use Mezzio\Helper\UrlHelper;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use UnexpectedValueException;
 
 class CreateUserActionTest extends TestCase
 {
@@ -63,7 +63,7 @@ class CreateUserActionTest extends TestCase
         ]);
 
         // then
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(OutOfBoundsException::class);
 
         // when
         $this->sut();
@@ -76,7 +76,7 @@ class CreateUserActionTest extends TestCase
             ->willReturn($this->createMock(UserNotCreatedDomainResult::class));
 
         // then
-        $this->expectException(UnexpectedValueException::class);
+        $this->expectException(OutOfBoundsException::class);
 
         // when
         $this->sut();

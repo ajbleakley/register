@@ -8,6 +8,101 @@
 	},
 	"item": [
 		{
+			"name": "Doc",
+			"item": [
+				{
+					"name": "Invalid parameter",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/doc/invalid-parameter",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"doc",
+								"invalid-parameter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Method not allowed",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/doc/method-not-allowed",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"doc",
+								"method-not-allowed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Resource not found",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/doc/resource-not-found",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"doc",
+								"resource-not-found"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Out of bounds",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/doc/out-of-bounds",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"doc",
+								"out-of-bounds"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Runtime error",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/doc/runtime-error",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"doc",
+								"runtime-error"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Get user",
 			"event": [
 				{
@@ -62,7 +157,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"email\": \"{{$randomExampleEmail}}\",\n    \"password\": \"lowerUPPER123@$!\"\n}",
+					"raw": "{\n\t\"email\": \"{{$randomExampleEmail}}\",\n    \"password\": \"{{$randomPassword}}\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"

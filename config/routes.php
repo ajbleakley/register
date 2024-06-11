@@ -54,4 +54,11 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         BodyParamsMiddleware::class,
         CreateUserAction::class,
     ]);
+
+    // API docs
+    $app->get('/api/v1/doc/invalid-parameter', App\Doc\InvalidParameterHandler::class);
+    $app->get('/api/v1/doc/method-not-allowed', App\Doc\MethodNotAllowedHandler::class);
+    $app->get('/api/v1/doc/resource-not-found', App\Doc\ResourceNotFoundHandler::class);
+    $app->get('/api/v1/doc/out-of-bounds', App\Doc\OutOfBoundsHandler::class);
+    $app->get('/api/v1/doc/runtime-error', App\Doc\RuntimeErrorHandler::class);
 };
