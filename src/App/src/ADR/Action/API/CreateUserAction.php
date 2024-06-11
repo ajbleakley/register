@@ -6,15 +6,15 @@ namespace App\ADR\Action\API;
 
 use App\ADR\Domain\CreateUser\CreateUserDomain;
 use App\ADR\Domain\CreateUser\CreateUserDomainRequest;
-use App\ADR\Domain\CreateUser\NotReadyToCreateUserDomainResult;
 use App\ADR\Domain\CreateUser\UserCreatedDomainResult;
 use App\ADR\Domain\InvalidDomainRequestException;
+use App\Exception\OutOfBoundsException;
+use App\Exception\RuntimeException;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Mezzio\Helper\UrlHelper;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use UnexpectedValueException;
 
 use function filter_var;
 use function htmlspecialchars;
@@ -38,20 +38,20 @@ class CreateUserAction implements RequestHandlerInterface
         $email    = filter_var($request->getParsedBody()['email'] ?? '', FILTER_SANITIZE_EMAIL);
         $password = htmlspecialchars($request->getParsedBody()['password'] ?? '');
 
-        // domain
+        // marshal domain request
         try {
             $domainRequest = new CreateUserDomainRequest($email, $password);
-            $domainResult  = $this->createUserDomain->process($domainRequest);
         } catch (InvalidDomainRequestException $exception) {
-            $domainResult = new NotReadyToCreateUserDomainResult($exception->getMessage());
+            throw OutOfBoundsException::create($exception->getMessage());
         }
 
-        // responder
+        // process domain
+        $domainResult = $this->createUserDomain->process($domainRequest);
         if (! $domainResult instanceof UserCreatedDomainResult) {
-            // TODO - use [mezzio-problem-details](https://docs.mezzio.dev/mezzio-problem-details/)
-            throw new UnexpectedValueException($domainResult->getMessage());
+            throw RuntimeException::create($domainResult->getMessage());
         }
 
+        // issue response
         return new RedirectResponse($this->urlHelper->generate('api.users', [
             'identifier' => $domainResult->getUser()->identifier(),
         ]));
