@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\User\User;
+use App\Entity\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
 class UserService
@@ -13,7 +14,7 @@ class UserService
     {
     }
 
-    public function fetchByIdentifier(string $identifier): ?User
+    public function fetchByIdentifier(string $identifier): ?UserInterface
     {
         return $this->entityManager->createQueryBuilder()
             ->select('u')
@@ -21,7 +22,7 @@ class UserService
             ->andWhere('u.identifier = :identifier')
             ->setParameter('identifier', $identifier)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getSingleResult();
     }
 
     public function saveUser(User $user): void
