@@ -27,15 +27,15 @@ class User implements UserInterface
 
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'guid')]
-    public string|null $identifier;
+    private string|null $identifier;
 
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'created_at', type: 'datetime_immutable')]
-    public DateTimeImmutable $createdAt;
+    private DateTimeImmutable $createdAt;
 
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'updated_at', type: 'datetime_immutable')]
-    public DateTimeImmutable $updatedAt;
+    private DateTimeImmutable $updatedAt;
 
     #[ORM\Column(type: 'string')]
     private string $username;
@@ -44,7 +44,7 @@ class User implements UserInterface
     private string $passwordHash;
 
     #[ORM\Column(type: 'string')]
-    public string $email;
+    private string $email;
 
     public function __construct(string $email, string $password)
     {
@@ -65,6 +65,16 @@ class User implements UserInterface
     public function identifier(): string
     {
         return $this->identifier;
+    }
+
+    public function createdAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function updatedAt(): DateTimeImmutable
+    {
+        return $this->updatedAt;
     }
 
     public function username(): string
