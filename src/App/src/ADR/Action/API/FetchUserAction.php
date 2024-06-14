@@ -32,12 +32,9 @@ class FetchUserAction implements RequestHandlerInterface
     {
         // identifier
         $identifier = $request->getAttribute('identifier');
-
-        if ($identifier) {
-            return $this->getUser($identifier, $request);
-        }
-
-        return $this->getAllUsers($request);
+        return $identifier
+            ? $this->getUser($identifier, $request)
+            : $this->getAllUsers($request);
     }
 
     private function getUser(string $identifier, ServerRequestInterface $request): ResponseInterface
@@ -57,7 +54,10 @@ class FetchUserAction implements RequestHandlerInterface
     private function getAllUsers(ServerRequestInterface $request): ResponseInterface
     {
         try {
-            $users = $this->users->fetchAll();
+            $users = $this->users->findBy(
+                (int) ($request->getQueryParams()['page'] ?? 1),
+                (int) ($request->getQueryParams()['limit'] ?? 10),
+            );
         } catch (Exception $exception) {
             throw OutOfBoundsException::create($exception->getMessage());
         }

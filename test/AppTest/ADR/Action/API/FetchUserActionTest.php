@@ -75,7 +75,7 @@ class FetchUserActionTest extends TestCase
     public function testWhenUsersNotFoundThenActionExitsEarly(): void
     {
         // given
-        $this->users->method('fetchAll')
+        $this->users->method('findBy')
             ->willThrowException(new NoResultException());
 
         // expect
@@ -88,7 +88,7 @@ class FetchUserActionTest extends TestCase
     public function testWhenUsersFoundThenResponseIssues(): void
     {
         // given
-        $this->users->method('fetchAll')
+        $this->users->method('findBy')
             ->willReturn($this->createMock(UserCollection::class));
 
         // expect

@@ -15,10 +15,11 @@ class UserService
     {
     }
 
-    public function fetchAll(): UserCollection
+    public function findBy(int $page = 1, int $limit = 10): UserCollection
     {
-        $entityRepository = $this->entityManager->getRepository(User::class);
-        return new UserCollection($entityRepository->findAll());
+        $repository = $this->entityManager->getRepository(User::class);
+        $users      = $repository->findBy([], null, $limit, ($page - 1) * $limit);
+        return new UserCollection($users);
     }
 
     public function fetchByIdentifier(string $identifier): UserInterface
