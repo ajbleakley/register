@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\User\User;
+use App\Entity\User\UserCollection;
 use App\Entity\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -14,7 +15,13 @@ class UserService
     {
     }
 
-    public function fetchByIdentifier(string $identifier): ?UserInterface
+    public function fetchAll(): UserCollection
+    {
+        $entityRepository = $this->entityManager->getRepository(User::class);
+        return new UserCollection($entityRepository->findAll());
+    }
+
+    public function fetchByIdentifier(string $identifier): UserInterface
     {
         return $this->entityManager->createQueryBuilder()
             ->select('u')
