@@ -15,10 +15,10 @@ class UserService
     {
     }
 
-    public function findBy(int $page = 1, int $limit = 10): UserCollection
+    public function findBy(int $page = 1, int $limit = 10, array $orderBy = ['createdAt' => 'DESC']): UserCollection
     {
         $repository = $this->entityManager->getRepository(User::class);
-        $users      = $repository->findBy([], null, $limit, ($page - 1) * $limit);
+        $users      = $repository->findBy([], $orderBy, $limit, ($page - 1) * $limit);
         return new UserCollection($users);
     }
 
