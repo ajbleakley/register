@@ -41,17 +41,17 @@ class User implements UserInterface
     private string $username;
 
     #[ORM\Column(name: 'password_hash', type: 'string')]
-    private string $passwordHash;
+    protected string $passwordHash;
 
     #[ORM\Column(type: 'string')]
     private string $email;
 
     public function __construct(string $email, string $password)
     {
-        $this->identifier   = Uuid::uuid1()->toString();
-        $this->createdAt    = $this->updatedAt = new DateTimeImmutable();
-        $this->username     = $this->email = $email; // On user creation, email used as username
-        $this->passwordHash = $this->hashPassword($password);
+        $this->identifier = Uuid::uuid1()->toString();
+        $this->createdAt  = $this->updatedAt = new DateTimeImmutable();
+        $this->username   = $this->email = $email; // On user creation, email used as username
+        $this->updatePassword($password);
         $this->validate();
     }
 
@@ -77,6 +77,12 @@ class User implements UserInterface
         return $this->updatedAt;
     }
 
+    public function setUpdatedAt(): self
+    {
+        $this->updatedAt = new DateTimeImmutable();
+        return $this;
+    }
+
     public function username(): string
     {
         return $this->username;
@@ -87,13 +93,14 @@ class User implements UserInterface
         return $this->username;
     }
 
-    public function hashPassword(string $password): string
+    public function updatePassword(string $password): self
     {
         if (! (new PasswordValidationHelper())->isValid($password)) {
             throw new OutOfBoundsException('Invalid password');
         }
 
-        return password_hash($password, PASSWORD_DEFAULT);
+        $this->passwordHash = password_hash($password, PASSWORD_DEFAULT);
+        return $this;
     }
 
     public function verifyPassword(string $password): bool

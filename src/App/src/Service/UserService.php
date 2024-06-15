@@ -33,8 +33,9 @@ class UserService
             ->getSingleResult();
     }
 
-    public function saveUser(User $user): void
+    public function saveUser(UserInterface $user): void
     {
+        $user->setUpdatedAt();
         $this->entityManager->persist($user);
         $this->entityManager->flush();
     }

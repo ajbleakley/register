@@ -210,7 +210,7 @@
 			"response": []
 		},
 		{
-			"name": "Update user (not implemented yet)",
+			"name": "Update user",
 			"event": [
 				{
 					"listen": "test",
@@ -227,11 +227,11 @@
 				}
 			],
 			"request": {
-				"method": "PUT",
+				"method": "PATCH",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"name\": \"Add your name in the body\"\n}",
+					"raw": "{\n\t\"password\": \"{{$randomPassword}}!\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"

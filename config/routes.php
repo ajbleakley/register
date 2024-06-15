@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use App\ADR\Action\API\CreateUserAction;
 use App\ADR\Action\API\FetchUserAction;
+use App\ADR\Action\API\ModifyUserAction;
 use Mezzio\Application;
 use Mezzio\Helper\BodyParams\BodyParamsMiddleware;
 use Mezzio\MiddlewareFactory;
@@ -53,6 +54,11 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
     $app->post('/api/v1/users', [
         BodyParamsMiddleware::class,
         CreateUserAction::class,
+    ]);
+
+    $app->patch('/api/v1/users/{identifier}', [
+        BodyParamsMiddleware::class,
+        ModifyUserAction::class,
     ]);
 
     // API docs
