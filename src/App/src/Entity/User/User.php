@@ -77,6 +77,12 @@ class User implements UserInterface
         return $this->updatedAt;
     }
 
+    public function setUpdatedAt(): self
+    {
+        $this->updatedAt = new DateTimeImmutable();
+        return $this;
+    }
+
     public function username(): string
     {
         return $this->username;

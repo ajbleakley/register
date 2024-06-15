@@ -14,6 +14,8 @@ interface UserInterface
 
     public function updatedAt(): DateTimeImmutable;
 
+    public function setUpdatedAt(): self;
+
     public function username(): string;
 
     public function email(): string;
