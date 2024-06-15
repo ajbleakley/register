@@ -10,8 +10,9 @@ use const PASSWORD_DEFAULT;
 
 class TestUser extends User
 {
-    public function hashPassword(string $password): string
+    public function updatePassword(string $password): self
     {
-        return password_hash($password, PASSWORD_DEFAULT);
+        $this->passwordHash = password_hash($password, PASSWORD_DEFAULT);
+        return $this;
     }
 }

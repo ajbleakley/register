@@ -18,7 +18,7 @@ interface UserInterface
 
     public function email(): string;
 
-    public function hashPassword(string $password): string;
+    public function updatePassword(string $password): self;
 
     public function verifyPassword(string $password): bool;
 }
