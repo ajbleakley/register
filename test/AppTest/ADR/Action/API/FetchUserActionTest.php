@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace AppTest\ADR\Action\API;
 
 use App\ADR\Action\API\FetchUserAction;
+use App\Entity\User\UserCollection;
 use App\Entity\User\UserInterface;
 use App\Exception\NoResourceFoundException;
+use App\Exception\OutOfBoundsException;
 use App\Service\UserService;
 use Doctrine\ORM\NoResultException;
 use Mezzio\Hal\HalResponseFactory;
@@ -30,7 +32,7 @@ class FetchUserActionTest extends TestCase
 
         // parameters
         $this->request = $this->createMock(ServerRequestInterface::class);
-        $this->request->method('getAttribute')->willReturn('identifier');
+        $this->request->method('getMethod')->willReturn('get');
     }
 
     public function sut(): ResponseInterface
@@ -45,6 +47,8 @@ class FetchUserActionTest extends TestCase
     public function testWhenUserNotFoundThenActionExitsEarly(): void
     {
         // given
+        $this->request->method('getAttribute')
+            ->willReturn('identifier');
         $this->users->method('fetchByIdentifier')
             ->willThrowException(new NoResultException());
 
@@ -60,6 +64,32 @@ class FetchUserActionTest extends TestCase
         // given
         $this->users->method('fetchByIdentifier')
             ->willReturn($this->createMock(UserInterface::class));
+
+        // expect
+        $this->expectNotToPerformAssertions();
+
+        // when
+        $this->sut();
+    }
+
+    public function testWhenUsersNotFoundThenActionExitsEarly(): void
+    {
+        // given
+        $this->users->method('findBy')
+            ->willThrowException(new NoResultException());
+
+        // expect
+        $this->expectException(OutOfBoundsException::class);
+
+        // when
+        $this->sut();
+    }
+
+    public function testWhenUsersFoundThenResponseIssues(): void
+    {
+        // given
+        $this->users->method('findBy')
+            ->willReturn($this->createMock(UserCollection::class));
 
         // expect
         $this->expectNotToPerformAssertions();
