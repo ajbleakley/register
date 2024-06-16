@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\ADR\Action\API;
 
-use App\Exception\NoResourceFoundException;
 use App\Exception\OutOfBoundsException;
 use App\Service\UserService;
+use App\Trait\FetchUserTrait;
 use App\Trait\RestDispatchTrait;
 use Exception;
 use Mezzio\Hal\HalResponseFactory;
@@ -15,10 +15,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-use function htmlspecialchars;
-
 class FetchUserAction implements RequestHandlerInterface
 {
+    use FetchUserTrait;
     use RestDispatchTrait;
 
     public function __construct(
@@ -28,26 +27,18 @@ class FetchUserAction implements RequestHandlerInterface
     ) {
     }
 
-    public function get(ServerRequestInterface $request): ResponseInterface
+    protected function get(ServerRequestInterface $request): ResponseInterface
     {
         // identifier
         $identifier = $request->getAttribute('identifier');
         return $identifier
-            ? $this->getUser($identifier, $request)
+            ? $this->getUser($request)
             : $this->getAllUsers($request);
     }
 
-    private function getUser(string $identifier, ServerRequestInterface $request): ResponseInterface
+    private function getUser(ServerRequestInterface $request): ResponseInterface
     {
-        // sanitise user input
-        $identifier = htmlspecialchars($identifier);
-
-        try {
-            $user = $this->users->fetchByIdentifier($identifier);
-        } catch (Exception $exception) {
-            throw NoResourceFoundException::create($exception->getMessage());
-        }
-
+        $user = $this->fetchUser($request);
         return $this->createResponse($request, $user);
     }
 

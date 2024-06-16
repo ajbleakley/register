@@ -40,6 +40,12 @@ class UserService
         $this->entityManager->flush();
     }
 
+    public function removeUser(UserInterface $user): void
+    {
+        $this->entityManager->remove($user);
+        $this->entityManager->flush();
+    }
+
     public function isEmailAlreadyRegistered(string $email): bool
     {
         return (bool) $this->entityManager->createQueryBuilder()
