@@ -56,10 +56,10 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         CreateUserAction::class,
     ]);
 
-    $app->patch('/api/v1/users/{identifier}', [
+    $app->route('/api/v1/users/{identifier}', [
         BodyParamsMiddleware::class,
         ModifyUserAction::class,
-    ]);
+    ], ['PATCH', 'DELETE']);
 
     // API docs
     $app->get('/api/v1/doc/invalid-parameter', App\Doc\InvalidParameterHandler::class);
