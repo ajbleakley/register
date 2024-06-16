@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\ADR\Action\API;
 
 use App\Entity\User\UserInterface;
-use App\Exception\NoResourceFoundException;
 use App\Exception\OutOfBoundsException;
 use App\Service\UserService;
-use Exception;
+use App\Trait\FetchUserTrait;
+use App\Trait\RestDispatchTrait;
+use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Mezzio\Helper\UrlHelper;
 use Psr\Http\Message\ResponseInterface;
@@ -19,24 +20,26 @@ use function htmlspecialchars;
 
 class ModifyUserAction implements RequestHandlerInterface
 {
+    use FetchUserTrait;
+    use RestDispatchTrait;
+
     public function __construct(
         private readonly UserService $users,
         private readonly UrlHelper $urlHelper
     ) {
     }
 
-    public function handle(ServerRequestInterface $request): ResponseInterface
+    protected function delete(ServerRequestInterface $request): ResponseInterface
     {
-        // sanitise user input
-        $identifier = htmlspecialchars($request->getAttribute('identifier'));
-        $updated    = false;
+        $user = $this->fetchUser($request);
+        $this->users->removeUser($user);
+        return new EmptyResponse(200);
+    }
 
-        // fetch user
-        try {
-            $user = $this->users->fetchByIdentifier($identifier);
-        } catch (Exception $exception) {
-            throw NoResourceFoundException::create($exception->getMessage());
-        }
+    protected function patch(ServerRequestInterface $request): ResponseInterface
+    {
+        $user    = $this->fetchUser($request);
+        $updated = false;
 
         // update password
         if (! empty($password = $request->getParsedBody()['password'] ?? '')) {

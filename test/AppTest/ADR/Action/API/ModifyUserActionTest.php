@@ -5,11 +5,7 @@ declare(strict_types=1);
 namespace AppTest\ADR\Action\API;
 
 use App\ADR\Action\API\ModifyUserAction;
-use App\Entity\User\TestUser;
-use App\Entity\User\UserInterface;
-use App\Exception\NoResourceFoundException;
 use App\Service\UserService;
-use Doctrine\ORM\NoResultException;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Mezzio\Helper\UrlHelper;
 use PHPUnit\Framework\TestCase;
@@ -42,26 +38,26 @@ class ModifyUserActionTest extends TestCase
             ->handle($this->request);
     }
 
-    public function testWhenUserNotFoundThenHandlerExitsEarly(): void
+    public function testWhenUserDeletedThenEmptySuccessResponseIssued(): void
     {
         // given
-        $this->users->method('fetchByIdentifier')
-            ->willThrowException(new NoResultException());
-
-        // expect
-        $this->users->expects(self::never())
-            ->method('saveUser');
-        $this->expectException(NoResourceFoundException::class);
+        $this->request->method('getMethod')
+            ->willReturn('delete');
 
         // when
-        $this->sut();
+        $response = $this->sut();
+
+        // then
+        self::assertEquals(200, $response->getStatusCode());
     }
 
     public function testWhenPasswordIsNotUpdatedThenUserIsNotSaved(): void
     {
         // given
-        $this->users->method('fetchByIdentifier')
-            ->willReturn($this->createMock(UserInterface::class));
+        $this->request->method('getMethod')
+            ->willReturn('patch');
+        $this->request->method('getParsedBody')
+            ->willReturn([]); // no password
 
         // expect
         $this->users->expects(self::never())
@@ -74,8 +70,8 @@ class ModifyUserActionTest extends TestCase
     public function testWhenPasswordIsUpdatedThenUserIsSaved(): void
     {
         // given
-        $this->users->method('fetchByIdentifier')
-            ->willReturn(new TestUser('johndoe@example.com', 'original_password'));
+        $this->request->method('getMethod')
+            ->willReturn('patch');
         $this->request->method('getParsedBody')
             ->willReturn(['password' => 'updated_password']);
 
@@ -87,11 +83,11 @@ class ModifyUserActionTest extends TestCase
         $this->sut();
     }
 
-    public function testWhenResponseIssuedThenRedirectResponse(): void
+    public function testWhenSuccessfulUpdateRequestThenRedirectResponse(): void
     {
         // given
-        $this->users->method('fetchByIdentifier')
-            ->willReturn(new TestUser('johndoe@example.com', 'original_password'));
+        $this->request->method('getMethod')
+            ->willReturn('patch');
         $this->request->method('getParsedBody')
             ->willReturn(['password' => 'updated_password']);
 
