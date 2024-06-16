@@ -253,7 +253,7 @@
 			"response": []
 		},
 		{
-			"name": "Delete user (not implemented yet)",
+			"name": "Delete user",
 			"event": [
 				{
 					"listen": "test",
