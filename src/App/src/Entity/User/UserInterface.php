@@ -18,7 +18,7 @@ interface UserInterface
 
     public function username(): string;
 
-    public function email(): string;
+    public function email(): Email;
 
     public function updatePassword(string $password): self;
 

@@ -21,7 +21,7 @@ class UserHydrator implements HydratorInterface
             'identifier' => $object->identifier(),
             'created_at' => $object->createdAt()->format('c'),
             'updated_at' => $object->updatedAt()->format('c'),
-            'email'      => $object->email(),
+            'email'      => (string) $object->email(),
         ];
     }
 
