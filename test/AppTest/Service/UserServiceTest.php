@@ -64,12 +64,12 @@ class UserServiceTest extends TestCase
 
     public function testWhenUserDoesNotAlreadyExistForEmail(): void
     {
-        self::assertFalse($this->sut()->isEmailAlreadyRegistered($this->dummyUser->email()));
+        self::assertFalse($this->sut()->isEmailAlreadyRegistered((string) $this->dummyUser->email()));
     }
 
     public function testWhenUserAlreadyExistForEmail(): void
     {
         $this->sut()->saveUser($this->dummyUser);
-        self::assertTrue($this->sut()->isEmailAlreadyRegistered($this->dummyUser->email()));
+        self::assertTrue($this->sut()->isEmailAlreadyRegistered((string) $this->dummyUser->email()));
     }
 }
